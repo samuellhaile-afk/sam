@@ -10,8 +10,12 @@ class SocialMediaMarketing:
     def list_tools(self):
         return self.tools
 
-    def analyze_performance(self, metrics):
-        # Dummy implementation for performance analysis
+    def analyze_performance(self, metrics, aggregator=None):
+        # If a real aggregator is provided, delegate to it for live metrics
+        if aggregator is not None:
+            summary = aggregator.overall()
+            return {m: getattr(summary, m, self._dummy_analysis(m)) for m in metrics}
+        # Dummy implementation for performance analysis (backward-compatible)
         return {metric: self._dummy_analysis(metric) for metric in metrics}
 
     def _dummy_analysis(self, metric):
